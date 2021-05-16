@@ -1,0 +1,54 @@
+﻿@model Store.Web.Models.ShoppingBasketIndexViewModel
+
+@{ 
+    ViewBag.Title = "Part Store: your basket";
+}
+
+<style>
+    #basketTable td {vertical-align:middle;}
+</style>
+
+<h2>Your basket</h2>
+<table id="basketTable" class="table">
+    <thead>
+        <tr>
+            <th>Count</th>
+            <th>Part</th>
+            <th class="text-right">Price</th>
+            <th class="text-right">Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model.Basket.Lines)
+        {
+            <tr>
+                <td class="text-left">@line.Quantity</td>
+                <td class="text-left">@line.Part.Name</td>
+                <td class="text-right">@line.Part.Price.ToString("# $")</td>
+                <td class="text-right">
+                    @((line.Quantity * line.Part.Price).ToString("# $"))
+                </td>
+                <td>
+                    @using (Html.BeginForm("RemoveFromBasket", "ShoppingBasket"))
+                    {
+                        @Html.Hidden("Part_Id", line.Part.Part_Id)
+                        @Html.HiddenFor(x => x.ReturnUrl)
+                        <input class="btn btn-sm btn-warning" type="submit" value="Delete"/>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right">Total:</td>
+            <td class="text-right">@Model.Basket.Total_Value().ToString("# $")</td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="text-center">
+    <a class="btn btn-primary" href="@Model.ReturnUrl">Continue</a>
+    @Html.ActionLink("Checkout", "checkout", null, new { @class = "btn btn-primary"})
+</div>
+ 

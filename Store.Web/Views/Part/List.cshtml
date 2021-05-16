@@ -1,0 +1,19 @@
+﻿
+@using Store.Web.Models
+@using Store.Web.HtmlHelpers
+@model PartListViewModel
+
+
+@{
+    ViewBag.Title = "Products";
+}
+
+@foreach (var p in @Model.Parts)
+{
+    @Html.Partial("PartSummary",p)
+}
+<div class="btn-group pull-right" >
+    @Html.Page_Links(Model.PaginInfo, x => Url.Action("List", new { page = x,
+type = Model.Current_Type }))
+</div>
+

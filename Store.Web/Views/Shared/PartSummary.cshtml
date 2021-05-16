@@ -1,0 +1,26 @@
+﻿@model Store.Lib.Entities.Part
+
+<div class="well">
+    @if(Model.ImageData != null)
+    {
+        <div class="pull-left" style="margin-right:10px">
+            <img class="img-thumbnail" width="75" height="75"
+                 scr="@Url.Action("GetImage", "Part", new { Model.Part_Id})" />
+        </div>
+    }
+    <h3>
+        <strong>@Model.Name</strong>
+        <span class="pull-right label label-primary"> @Model.Price.ToString("# $")</span>
+    </h3>
+    @using (Html.BeginForm("AddToBacket", "ShoppingBasket"))
+    {
+        <div class="pull-right">
+            @Html.HiddenFor(x => x.Part_Id)
+            @Html.Hidden("return_Url", Request.Url.PathAndQuery)
+            <input type="submit" class="btn btn-success" value="Add to Basket"/>
+        </div>
+    }
+    <span class="lead">@Model.Description<br></span>
+    <span class="lead">@Model.Bran_Car<br></span>
+    <span class="lead">@Model.Type<br></span>
+</div>
